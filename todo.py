@@ -1,19 +1,32 @@
-
+import pickle
 def print_todos(todos):
-    if len(todos) == 0:
-        print("You have nothing to do.")
-    else:
-        i = 0
-        for todo in todos:
-            print(f"{i}: {todo}")
-            i += 1
+    print("=======Pending======")
+    for index in range(len(todos)):
+        if not todos[index]["completed"]:
+            print(f"{index} : {todos[index]['title']}")
+    print("======================")
+    print("=======Completed======")
+    for index in range(len(todos)):
+        if todos[index]["completed"]:
+            print(f"{index} : {todos[index]['title']}")      
+    print("======================")   
+    # if len(todos) == 0:
+    #     print("You have nothing to do.")
+    # else:
+    #     i = 0
+    #     for todo in todos:
+    #         print(f"{i}: {todo}")
+    #         i += 1
 
 def add_todo(todos, item):
-    todos.append(item)
+    todos.append({'title': item, 'completed' : False})
 
 def delete_todo(todos, index):
     try:
-        del todos[index]
+        if todos[index]['completed']:
+            print("You've already done this! Good job.")
+        else:
+            todos[index]['completed']=True
     except IndexError:
         print("That todo does not exist.")
 
@@ -41,8 +54,13 @@ def get_choice(prompt="Choose one: "):
     
 def main():
     todo_list = []
+    file_name = "todo.pickle"
+    try:
+        with open (file_name, 'rb') as file_handle:
+            todo_list = pickle.load(file_handle)
+    except:
+        pass
 
-    
     is_running = True
     while is_running:
         print_menu()
@@ -58,6 +76,7 @@ def main():
         elif choice == 3:            
             index_to_delete = get_choice("Enter the index to complete: ")
             delete_todo(todo_list, index_to_delete)
-        
+    with open(file_name, "wb") as file_handle:
+        pickle.dump(todo_list, file_handle)  
 
 main()
