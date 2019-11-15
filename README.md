@@ -1,4 +1,4 @@
-# Pairing exercise!
+# Travis and Austin worked on this to vastly improve the defeciencies which were readily apparent to anyone, even those with an untrained eye. 
 
 Upgrade this code to use dictionaries for each todo.
 
